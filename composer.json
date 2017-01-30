@@ -3,6 +3,7 @@
     "description": "PHP hash strategy library including random, sorted, consistent",
     "type": "library",
     "homepage": "https://github.com/phlib/hashstrategy",
+    "license": "LGPL-3.0",
     "authors": [
         {
             "name": "James Dempster"
