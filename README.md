@@ -1,10 +1,10 @@
 # phlib/hashstrategy
 PHP hash strategy library including random, sorted, consistent
 
-[![Build Status](https://img.shields.io/travis/phlib/hashstrategy/master.svg)](https://travis-ci.org/phlib/hashstrategy)
-[![Codecov](https://img.shields.io/codecov/c/github/phlib/hashstrategy.svg)](https://codecov.io/gh/phlib/hashstrategy)
-[![Latest Stable Version](https://img.shields.io/packagist/v/phlib/hashstrategy.svg)](https://packagist.org/packages/phlib/hashstrategy)
-[![Total Downloads](https://img.shields.io/packagist/dt/phlib/hashstrategy.svg)](https://packagist.org/packages/phlib/hashstrategy)
+[![Code Checks](https://img.shields.io/github/workflow/status/phlib/hashstrategy/CodeChecks?logo=github)](https://github.com/phlib/hashstrategy/actions/workflows/code-checks.yml)
+[![Codecov](https://img.shields.io/codecov/c/github/phlib/hashstrategy.svg?logo=codecov)](https://codecov.io/gh/phlib/hashstrategy)
+[![Latest Stable Version](https://img.shields.io/packagist/v/phlib/hashstrategy.svg?logo=packagist)](https://packagist.org/packages/phlib/hashstrategy)
+[![Total Downloads](https://img.shields.io/packagist/dt/phlib/hashstrategy.svg?logo=packagist)](https://packagist.org/packages/phlib/hashstrategy)
 ![Licence](https://img.shields.io/github/license/phlib/hashstrategy.svg)
 
 ## License
