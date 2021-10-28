@@ -1,8 +1,6 @@
 <?php
 
-namespace Phlib\HashStrategy\Test;
-
-use Phlib\HashStrategy\Consistent;
+namespace Phlib\HashStrategy;
 
 class ConsistentTest extends \PHPUnit_Framework_TestCase
 {

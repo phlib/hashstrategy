@@ -1,8 +1,6 @@
 <?php
 
-namespace Phlib\HashStrategy\Test;
-
-use Phlib\HashStrategy\Config;
+namespace Phlib\HashStrategy;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {

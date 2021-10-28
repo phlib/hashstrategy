@@ -1,8 +1,6 @@
 <?php
 
-namespace Phlib\HashStrategy\Test;
-
-use Phlib\HashStrategy\Rand;
+namespace Phlib\HashStrategy;
 
 class RandTest extends \PHPUnit_Framework_TestCase
 {

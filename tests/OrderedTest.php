@@ -1,8 +1,6 @@
 <?php
 
-namespace Phlib\HashStrategy\Test;
-
-use Phlib\HashStrategy\Ordered;
+namespace Phlib\HashStrategy;
 
 class OrderedTest extends \PHPUnit_Framework_TestCase
 {
