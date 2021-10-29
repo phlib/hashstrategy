@@ -7,35 +7,35 @@ class RandTest extends \PHPUnit_Framework_TestCase
     public function testAddReturn()
     {
         $hs = new Rand();
-        $this->assertEquals($hs, $hs->add('server1'));
+        static::assertEquals($hs, $hs->add('server1'));
     }
 
     public function testRemoveReturn()
     {
         $hs = new Rand();
-        $this->assertEquals($hs, $hs->remove('server1'));
+        static::assertEquals($hs, $hs->remove('server1'));
     }
 
     public function testGetReturn()
     {
         $hs = new Rand();
-        $this->assertEquals([], $hs->get('key1'));
+        static::assertEquals([], $hs->get('key1'));
     }
 
     public function testGetWithData()
     {
         $hs = new Rand();
         $hs->add('server1');
-        $this->assertEquals(['server1'], $hs->get('key1'));
+        static::assertEquals(['server1'], $hs->get('key1'));
     }
 
     public function testRemoveWithData()
     {
         $hs = new Rand();
         $hs->add('server1');
-        $this->assertEquals(['server1'], $hs->get('key1'));
+        static::assertEquals(['server1'], $hs->get('key1'));
         $hs->remove('server1');
-        $this->assertEquals([], $hs->get('key1'));
+        static::assertEquals([], $hs->get('key1'));
     }
 
     public function testRemoveWithDataTwo()
@@ -44,9 +44,9 @@ class RandTest extends \PHPUnit_Framework_TestCase
         $hs->add('server1');
         $hs->add('server2');
 
-        $this->assertCount(2, $hs->get('key1', 2));
+        static::assertCount(2, $hs->get('key1', 2));
         $hs->remove('server1');
-        $this->assertEquals(['server2'], $hs->get('key1'));
+        static::assertEquals(['server2'], $hs->get('key1'));
     }
 
     public function testGetWithDataMax()
@@ -56,7 +56,7 @@ class RandTest extends \PHPUnit_Framework_TestCase
         $hs->add('server2');
         $hs->add('server3');
 
-        $this->assertEquals(3, count($hs->get('key1', 10)));
+        static::assertEquals(3, count($hs->get('key1', 10)));
     }
 
     public function testGetWithRandData()
@@ -76,7 +76,7 @@ class RandTest extends \PHPUnit_Framework_TestCase
             }
         } while(count($nodeList) > 0 and $tries++ < 100);
 
-        $this->assertLessThan(100, $tries);
+        static::assertLessThan(100, $tries);
     }
 
     public function testGetWeight()
@@ -99,9 +99,9 @@ class RandTest extends \PHPUnit_Framework_TestCase
         } while($loops--);
 
         // assert they are within 10% tolerance
-        $this->assertEquals(500, $counts['server1'], '', 100);
-        $this->assertEquals(200, $counts['server2'], '', 100);
-        $this->assertEquals(300, $counts['server3'], '', 100);
+        static::assertEquals(500, $counts['server1'], '', 100);
+        static::assertEquals(200, $counts['server2'], '', 100);
+        static::assertEquals(300, $counts['server3'], '', 100);
     }
 
     public function testGetWeightChange()
@@ -111,10 +111,10 @@ class RandTest extends \PHPUnit_Framework_TestCase
         $hs->add('server2', 0);
         $hs->add('server3', 1);
 
-        $this->assertEquals(['server3'], $hs->get('key1'));
+        static::assertEquals(['server3'], $hs->get('key1'));
 
         $hs->remove('server3');
         $hs->add('server3a', 1);
-        $this->assertEquals(['server3a'], $hs->get('key1'));
+        static::assertEquals(['server3a'], $hs->get('key1'));
     }
 }

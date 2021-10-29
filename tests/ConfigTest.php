@@ -9,7 +9,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     protected $config;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 
@@ -35,34 +35,22 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function tearDown()
-    {
-        parent::tearDown();
-
-        $this->config = null;
-    }
-
     public function testgetManyConfigsLevelOne()
     {
-        $hashStrategy = $this->getMock('\Phlib\HashStrategy\Ordered');
-        $hashStrategy->expects($this->exactly(3))
+        $hashStrategy = $this->getMock(Ordered::class);
+        $hashStrategy->expects(static::exactly(3))
             ->method('add');
 
-        $hashStrategy->expects($this->once())
+        $hashStrategy->expects(static::once())
             ->method('get')
-            ->with(
-                $this->equalTo('key1'),
-                $this->equalTo(1)
-            )
-            ->will(
-                $this->returnValue([0])
-            );
+            ->with('key1', 1)
+            ->willReturn([0]);
 
         $poolConfig = new Config($this->config, $hashStrategy);
 
         $configList = $poolConfig->getManyConfigs('key1');
-        $this->assertEquals(1, count($configList));
-        $this->assertEquals($this->config[0], $configList[0]);
+        static::assertEquals(1, count($configList));
+        static::assertEquals($this->config[0], $configList[0]);
     }
 
     public function testgetManyConfigsLevelTwo()
@@ -71,24 +59,24 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $configList = $poolConfig->getManyConfigs('key1', 2);
 
-        $this->assertEquals(2, count($configList));
-        $this->assertEquals($this->config[2], $configList[0]);
-        $this->assertEquals($this->config[0], $configList[1]);
+        static::assertEquals(2, count($configList));
+        static::assertEquals($this->config[2], $configList[0]);
+        static::assertEquals($this->config[0], $configList[1]);
     }
 
     public function testGetConfigList()
     {
         $poolConfig = new Config($this->config);
         $originalConfig = $poolConfig->getConfigList();
-        $this->assertEquals(count($this->config), count($originalConfig));
-        $this->assertEquals($this->config, $originalConfig);
+        static::assertEquals(count((array) $this->config), count($originalConfig));
+        static::assertEquals($this->config, $originalConfig);
     }
 
     public function testGetConfig()
     {
         $poolConfig = new Config($this->config);
-        $this->assertEquals($this->config[2], $poolConfig->getConfig('key1'));
-        $this->assertEquals($this->config[2], $poolConfig->getConfig('key2a'));
+        static::assertEquals($this->config[2], $poolConfig->getConfig('key1'));
+        static::assertEquals($this->config[2], $poolConfig->getConfig('key2a'));
     }
 
     public function testGetConfigWeighted()
@@ -97,7 +85,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->config[1]['weight'] = 0;
         $this->config[2]['weight'] = 0;
         $poolConfig = new Config($this->config);
-        $this->assertEquals($this->config[0], $poolConfig->getConfig('key1'));
+        static::assertEquals($this->config[0], $poolConfig->getConfig('key1'));
     }
 
     public function testGetConfigMany()
@@ -106,7 +94,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $counter = 200;
         while($counter--) {
-            $this->assertEquals(1, count($poolConfig->getManyConfigs(uniqid())));
+            static::assertEquals(1, count($poolConfig->getManyConfigs(uniqid())));
         }
     }
 
@@ -116,7 +104,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $counter = 200;
         while($counter--) {
-            $this->assertEquals(2, count($poolConfig->getManyConfigs(uniqid(), 2)));
+            static::assertEquals(2, count($poolConfig->getManyConfigs(uniqid(), 2)));
         }
     }
 }
