@@ -20,14 +20,14 @@ class ConsistentTest extends \PHPUnit_Framework_TestCase
     public function testGetReturn()
     {
         $hs = new Consistent();
-        $this->assertEquals(array(), $hs->get('key1'));
+        $this->assertEquals([], $hs->get('key1'));
     }
 
     public function testGetWithData()
     {
         $hs = new Consistent();
         $hs->add('server1');
-        $this->assertEquals(array('server1'), $hs->get('key1'));
+        $this->assertEquals(['server1'], $hs->get('key1'));
     }
 
     public function testGetWithDataTwo()
@@ -35,18 +35,18 @@ class ConsistentTest extends \PHPUnit_Framework_TestCase
         $hs = new Consistent();
         $hs->add('server1');
         $hs->add('server2');
-        $this->assertEquals(array('server1'), $hs->get('key1'));
-        $this->assertEquals(array('server1', 'server2'), $hs->get('key1', 2));
-        $this->assertEquals(array('server2', 'server1'), $hs->get('key2abc', 2));
+        $this->assertEquals(['server1'], $hs->get('key1'));
+        $this->assertEquals(['server1', 'server2'], $hs->get('key1', 2));
+        $this->assertEquals(['server2', 'server1'], $hs->get('key2abc', 2));
     }
 
     public function testRemoveWithData()
     {
         $hs = new Consistent();
         $hs->add('server1');
-        $this->assertEquals(array('server1'), $hs->get('key1'));
+        $this->assertEquals(['server1'], $hs->get('key1'));
         $hs->remove('server1');
-        $this->assertEquals(array(), $hs->get('key1'));
+        $this->assertEquals([], $hs->get('key1'));
     }
 
     public function testRemoveWithDataTwo()
@@ -54,9 +54,9 @@ class ConsistentTest extends \PHPUnit_Framework_TestCase
         $hs = new Consistent();
         $hs->add('server1');
         $hs->add('server2');
-        $this->assertEquals(array('server1', 'server2'), $hs->get('key1', 2));
+        $this->assertEquals(['server1', 'server2'], $hs->get('key1', 2));
         $hs->remove('server1');
-        $this->assertEquals(array('server2'), $hs->get('key1'));
+        $this->assertEquals(['server2'], $hs->get('key1'));
     }
 
     public function testGetWithDataMax()
@@ -102,7 +102,7 @@ class ConsistentTest extends \PHPUnit_Framework_TestCase
         $hs->add('server2', 10);
         $hs->add('server3', 1);
 
-        $this->assertEquals(array('server2'), $hs->get('key1'));
+        $this->assertEquals(['server2'], $hs->get('key1'));
     }
 
     public function testGetWeightChange()
@@ -112,10 +112,10 @@ class ConsistentTest extends \PHPUnit_Framework_TestCase
         $hs->add('server2', 10);
         $hs->add('server3', 1);
 
-        $this->assertEquals(array('server2'), $hs->get('key1'));
+        $this->assertEquals(['server2'], $hs->get('key1'));
 
         $hs->add('server4', 100);
-        $this->assertEquals(array('server4'), $hs->get('key1'));
+        $this->assertEquals(['server4'], $hs->get('key1'));
     }
 
     /**
@@ -133,7 +133,7 @@ class ConsistentTest extends \PHPUnit_Framework_TestCase
         $hs->add('server2', 1);
         $hs->add('server3', 1);
 
-        $this->assertEquals(array('server1'), $hs->get('key1'));
+        $this->assertEquals(['server1'], $hs->get('key1'));
     }
 
     public function testHashTypeMd5()
@@ -143,6 +143,6 @@ class ConsistentTest extends \PHPUnit_Framework_TestCase
         $hs->add('server2', 1);
         $hs->add('server3', 1);
 
-        $this->assertEquals(array('server3'), $hs->get('key1'));
+        $this->assertEquals(['server3'], $hs->get('key1'));
     }
 }

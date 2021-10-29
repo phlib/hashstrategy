@@ -12,12 +12,12 @@ class Rand implements HashStrategyInterface
     /**
      * @var array
      */
-    protected $nodes = array();
+    protected $nodes = [];
 
     /**
      * @var array
      */
-    protected $weightedList = array();
+    protected $weightedList = [];
 
     /**
      * Add

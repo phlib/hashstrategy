@@ -30,7 +30,7 @@ class Config
     /**
      * @var array
      */
-    protected $calculatedConfig = array();
+    protected $calculatedConfig = [];
 
     /**
      * @var HashStrategyInterface
@@ -96,7 +96,7 @@ class Config
             }
 
             // get a list of config keys using the count and key provided
-            $configList = array();
+            $configList = [];
             foreach ($this->hashStrategy->get($key, $count) as $index) {
                 // append the config values to the config list
                 $configList[] = $this->configList[$index];

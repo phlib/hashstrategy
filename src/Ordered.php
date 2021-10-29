@@ -13,7 +13,7 @@ class Ordered implements HashStrategyInterface
     /**
      * @var array
      */
-    protected $nodes = array();
+    protected $nodes = [];
 
     /**
      * @var int

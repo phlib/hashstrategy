@@ -27,17 +27,17 @@ class Consistent implements HashStrategyInterface
     /**
      * @var array
      */
-    protected $nodes = array();
+    protected $nodes = [];
 
     /**
      * @var array
      */
-    protected $circle = array();
+    protected $circle = [];
 
     /**
      * @var array
      */
-    protected $positions = array();
+    protected $positions = [];
 
     /**
      * @var string
@@ -52,7 +52,7 @@ class Consistent implements HashStrategyInterface
      */
     public function __construct($hashType = 'crc32')
     {
-        $availableTypes = array('crc32', 'md5');
+        $availableTypes = ['crc32', 'md5'];
         if (!in_array($hashType, $availableTypes)) {
             throw new \InvalidArgumentException(
                 sprintf(
@@ -80,7 +80,7 @@ class Consistent implements HashStrategyInterface
         // make sure we haven't already add this node
         if (!in_array($node, $this->nodes)) {
             // reset sorted positions, adding a node invalidates
-            $this->positions = array();
+            $this->positions = [];
             // add the node to the nodes array
             $this->nodes[] = $node;
             // calculate how many replicas to use in the circle
@@ -108,7 +108,7 @@ class Consistent implements HashStrategyInterface
         $nodeIndex = array_search($node, $this->nodes);
         if ($nodeIndex !== false) {
             // reset sorted positions, removing a node invalidates
-            $this->positions = array();
+            $this->positions = [];
             // remove the found node
             unset($this->nodes[$nodeIndex]);
             // loop the positions in the circle
@@ -168,7 +168,7 @@ class Consistent implements HashStrategyInterface
             sort($this->positions);
         }
 
-        $collected = array();
+        $collected = [];
         $found = 0;
 
         // loop though every position

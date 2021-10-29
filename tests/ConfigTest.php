@@ -13,26 +13,26 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->config = array(
-            0 => array(
+        $this->config = [
+            0 => [
                 'weight' => 2,
                 'host'   => 'local1',
                 'port'   => 123,
                 'key1'   => 'value1'
-            ),
-            1 => array(
+            ],
+            1 => [
                 'weight' => 1,
                 'host'   => 'local2',
                 'port'   => 456,
                 'key1'   => 'value2'
-            ),
-            2 => array(
+            ],
+            2 => [
                 'weight' => 3,
                 'host'   => 'local3',
                 'port'   => 789,
                 'key1'   => 'value3'
-            )
-        );
+            ]
+        ];
     }
 
     public function tearDown()
@@ -55,7 +55,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo(1)
             )
             ->will(
-                $this->returnValue(array(0))
+                $this->returnValue([0])
             );
 
         $poolConfig = new Config($this->config, $hashStrategy);
