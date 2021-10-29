@@ -2,7 +2,9 @@
 
 namespace Phlib\HashStrategy;
 
-class ConfigTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ConfigTest extends TestCase
 {
     /**
      * @var array
@@ -37,7 +39,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testgetManyConfigsLevelOne()
     {
-        $hashStrategy = $this->getMock(Ordered::class);
+        $hashStrategy = $this->createMock(Ordered::class);
         $hashStrategy->expects(static::exactly(3))
             ->method('add');
 

@@ -2,7 +2,9 @@
 
 namespace Phlib\HashStrategy;
 
-class ConsistentTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ConsistentTest extends TestCase
 {
 
     public function testAddReturn()
