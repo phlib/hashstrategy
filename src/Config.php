@@ -67,8 +67,10 @@ class Config
     {
         // loop the config adding the key as a node
         foreach ($this->configList as $key => $value) {
-            $weight = isset($value['weight']) ? $value['weight'] : 1;
-            $hashStrategy->add($key, $weight);
+            $hashStrategy->add(
+                $key,
+                $value['weight'] ?? 1
+            );
         }
 
         $this->hashStrategy = $hashStrategy;
