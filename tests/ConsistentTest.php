@@ -120,11 +120,9 @@ class ConsistentTest extends TestCase
         static::assertEquals(['server4'], $hs->get('key1'));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidHashType()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new Consistent('none');
     }
 
