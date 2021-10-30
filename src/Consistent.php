@@ -43,13 +43,7 @@ class Consistent implements HashStrategyInterface
      */
     protected $hashType = 'crc32';
 
-    /**
-     * Constructor
-     *
-     * @param string $hashType
-     * @throws \InvalidArgumentException
-     */
-    public function __construct($hashType = 'crc32')
+    public function __construct(string $hashType = 'crc32')
     {
         $availableTypes = ['crc32', 'md5'];
         if (!in_array($hashType, $availableTypes)) {
@@ -64,18 +58,8 @@ class Consistent implements HashStrategyInterface
         $this->hashType = $hashType;
     }
 
-    /**
-     * Add
-     *
-     * @param string $node
-     * @param int $weight
-     * @return $this
-     */
-    public function add($node, $weight = 1)
+    public function add(string $node, int $weight = 1): self
     {
-        $node = (string)$node;
-        $weight = (int)$weight;
-
         // make sure we haven't already add this node
         if (!in_array($node, $this->nodes)) {
             // reset sorted positions, adding a node invalidates
@@ -93,16 +77,8 @@ class Consistent implements HashStrategyInterface
         return $this;
     }
 
-    /**
-     * Remove
-     *
-     * @param string $node
-     * @return $this
-     */
-    public function remove($node)
+    public function remove(string $node): self
     {
-        $node = (string)$node;
-
         // find the node index for removal
         $nodeIndex = array_search($node, $this->nodes);
         if ($nodeIndex !== false) {
@@ -124,13 +100,7 @@ class Consistent implements HashStrategyInterface
         return $this;
     }
 
-    /**
-     * Hash
-     *
-     * @param string $value
-     * @return string
-     */
-    protected function hash($value)
+    protected function hash(string $value): string
     {
         switch ($this->hashType) {
             case 'md5':
@@ -146,18 +116,8 @@ class Consistent implements HashStrategyInterface
         return $hashValue;
     }
 
-    /**
-     * Get
-     *
-     * @param string $key
-     * @param int $count
-     * @return array
-     */
-    public function get($key, $count = 1)
+    public function get(string $key, int $count = 1): array
     {
-        $key = (string)$key;
-        $count = (int)$count;
-
         // this will be our lookup
         $hash = $this->hash($key);
         // if the stored positions are empty then we need to calculate

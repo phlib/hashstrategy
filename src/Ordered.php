@@ -24,18 +24,8 @@ class Ordered implements HashStrategyInterface
      */
     protected $sorted = false;
 
-    /**
-     * Add
-     *
-     * @param string $node
-     * @param int $weight
-     * @return $this
-     */
-    public function add($node, $weight = 1)
+    public function add(string $node, int $weight = 1): self
     {
-        $node = (string)$node;
-        $weight = (int)$weight;
-
         if (!in_array($node, $this->nodes)) {
             // add the node to the nodes array
             if ($weight) {
@@ -52,16 +42,8 @@ class Ordered implements HashStrategyInterface
         return $this;
     }
 
-    /**
-     * Remove
-     *
-     * @param string $node
-     * @return $this
-     */
-    public function remove($node)
+    public function remove(string $node): self
     {
-        $node = (string)$node;
-
         $nodeIndex = array_search($node, $this->nodes);
         if ($nodeIndex !== false) {
             // remove the found node
@@ -71,17 +53,8 @@ class Ordered implements HashStrategyInterface
         return $this;
     }
 
-    /**
-     * Get
-     *
-     * @param string $key
-     * @param int $count
-     * @return array
-     */
-    public function get($key, $count = 1)
+    public function get(string $key, int $count = 1): array
     {
-        $count = (int)$count;
-
         if (!$this->sorted) {
             krsort($this->nodes, SORT_STRING);
             $this->sorted = true;

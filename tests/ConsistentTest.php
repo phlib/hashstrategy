@@ -6,32 +6,32 @@ use PHPUnit\Framework\TestCase;
 
 class ConsistentTest extends TestCase
 {
-    public function testAddReturn()
+    public function testAddReturn(): void
     {
         $hs = new Consistent();
         static::assertEquals($hs, $hs->add('server1'));
     }
 
-    public function testRemoveReturn()
+    public function testRemoveReturn(): void
     {
         $hs = new Consistent();
         static::assertEquals($hs, $hs->remove('server1'));
     }
 
-    public function testGetReturn()
+    public function testGetReturn(): void
     {
         $hs = new Consistent();
         static::assertEquals([], $hs->get('key1'));
     }
 
-    public function testGetWithData()
+    public function testGetWithData(): void
     {
         $hs = new Consistent();
         $hs->add('server1');
         static::assertEquals(['server1'], $hs->get('key1'));
     }
 
-    public function testGetWithDataTwo()
+    public function testGetWithDataTwo(): void
     {
         $hs = new Consistent();
         $hs->add('server1');
@@ -41,7 +41,7 @@ class ConsistentTest extends TestCase
         static::assertEquals(['server2', 'server1'], $hs->get('key2abc', 2));
     }
 
-    public function testRemoveWithData()
+    public function testRemoveWithData(): void
     {
         $hs = new Consistent();
         $hs->add('server1');
@@ -50,7 +50,7 @@ class ConsistentTest extends TestCase
         static::assertEquals([], $hs->get('key1'));
     }
 
-    public function testRemoveWithDataTwo()
+    public function testRemoveWithDataTwo(): void
     {
         $hs = new Consistent();
         $hs->add('server1');
@@ -60,7 +60,7 @@ class ConsistentTest extends TestCase
         static::assertEquals(['server2'], $hs->get('key1'));
     }
 
-    public function testGetWithDataMax()
+    public function testGetWithDataMax(): void
     {
         $hs = new Consistent();
         $hs->add('server1');
@@ -70,7 +70,7 @@ class ConsistentTest extends TestCase
         static::assertEquals(3, count($hs->get('key1', 10)));
     }
 
-    public function testGetWithRandData()
+    public function testGetWithRandData(): void
     {
         $hs = new Consistent();
         $hs->add('server1');
@@ -83,7 +83,7 @@ class ConsistentTest extends TestCase
         }
     }
 
-    public function testGetWithRandDataOther()
+    public function testGetWithRandDataOther(): void
     {
         $hs = new Consistent();
         $hs->add('server1');
@@ -96,7 +96,7 @@ class ConsistentTest extends TestCase
         }
     }
 
-    public function testGetWeight()
+    public function testGetWeight(): void
     {
         $hs = new Consistent();
         $hs->add('server1', 1);
@@ -106,7 +106,7 @@ class ConsistentTest extends TestCase
         static::assertEquals(['server2'], $hs->get('key1'));
     }
 
-    public function testGetWeightChange()
+    public function testGetWeightChange(): void
     {
         $hs = new Consistent();
         $hs->add('server1', 1);
@@ -119,13 +119,13 @@ class ConsistentTest extends TestCase
         static::assertEquals(['server4'], $hs->get('key1'));
     }
 
-    public function testInvalidHashType()
+    public function testInvalidHashType(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new Consistent('none');
     }
 
-    public function testHashTypeCrc32()
+    public function testHashTypeCrc32(): void
     {
         $hs = new Consistent('crc32');
         $hs->add('server1', 1);
@@ -135,7 +135,7 @@ class ConsistentTest extends TestCase
         static::assertEquals(['server1'], $hs->get('key1'));
     }
 
-    public function testHashTypeMd5()
+    public function testHashTypeMd5(): void
     {
         $hs = new Consistent('md5');
         $hs->add('server1', 1);

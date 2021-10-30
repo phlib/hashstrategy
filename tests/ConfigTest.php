@@ -11,7 +11,7 @@ class ConfigTest extends TestCase
      */
     protected $config;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -37,7 +37,7 @@ class ConfigTest extends TestCase
         ];
     }
 
-    public function testgetManyConfigsLevelOne()
+    public function testgetManyConfigsLevelOne(): void
     {
         $hashStrategy = $this->createMock(Ordered::class);
         $hashStrategy->expects(static::exactly(3))
@@ -55,7 +55,7 @@ class ConfigTest extends TestCase
         static::assertEquals($this->config[0], $configList[0]);
     }
 
-    public function testgetManyConfigsLevelTwo()
+    public function testgetManyConfigsLevelTwo(): void
     {
         $poolConfig = new Config($this->config);
 
@@ -66,7 +66,7 @@ class ConfigTest extends TestCase
         static::assertEquals($this->config[0], $configList[1]);
     }
 
-    public function testGetConfigList()
+    public function testGetConfigList(): void
     {
         $poolConfig = new Config($this->config);
         $originalConfig = $poolConfig->getConfigList();
@@ -74,14 +74,14 @@ class ConfigTest extends TestCase
         static::assertEquals($this->config, $originalConfig);
     }
 
-    public function testGetConfig()
+    public function testGetConfig(): void
     {
         $poolConfig = new Config($this->config);
         static::assertEquals($this->config[2], $poolConfig->getConfig('key1'));
         static::assertEquals($this->config[2], $poolConfig->getConfig('key2a'));
     }
 
-    public function testGetConfigWeighted()
+    public function testGetConfigWeighted(): void
     {
         $this->config[0]['weight'] = 1;
         $this->config[1]['weight'] = 0;
@@ -90,7 +90,7 @@ class ConfigTest extends TestCase
         static::assertEquals($this->config[0], $poolConfig->getConfig('key1'));
     }
 
-    public function testGetConfigMany()
+    public function testGetConfigMany(): void
     {
         $poolConfig = new Config($this->config);
 
@@ -100,7 +100,7 @@ class ConfigTest extends TestCase
         }
     }
 
-    public function testGetConfigMany2()
+    public function testGetConfigMany2(): void
     {
         $poolConfig = new Config($this->config);
 

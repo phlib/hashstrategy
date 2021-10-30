@@ -9,28 +9,14 @@ namespace Phlib\HashStrategy;
 interface HashStrategyInterface
 {
     /**
-     * Add
-     *
-     * @param string $node
-     * @param int $weight
-     * @return HashStrategy
+     * @return $this
      */
-    public function add($node, $weight = 1);
+    public function add(string $node, int $weight = 1);
 
     /**
-     * Remove
-     *
-     * @param string $node
-     * @return HashStrategy
+     * @return $this
      */
-    public function remove($node);
+    public function remove(string $node);
 
-    /**
-     * Get
-     *
-     * @param string $key
-     * @param int $count
-     * @return array
-     */
-    public function get($key, $count = 1);
+    public function get(string $key, int $count = 1): array;
 }
