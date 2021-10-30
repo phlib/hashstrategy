@@ -106,16 +106,12 @@ class Consistent implements HashStrategyInterface
     {
         switch ($this->hashType) {
             case 'md5':
-                $hashValue = substr(md5($value), 0, 8);
-                break;
+                return substr(md5($value), 0, 8);
 
             case 'crc32':
             default:
-                $hashValue = (string)crc32($value);
-                break;
+                return (string)crc32($value);
         }
-
-        return $hashValue;
     }
 
     public function get(string $key, int $count = 1): array
