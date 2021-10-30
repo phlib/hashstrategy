@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Phlib\HashStrategy;
 
 use PHPUnit\Framework\TestCase;
@@ -9,26 +11,26 @@ class ConsistentTest extends TestCase
     public function testAddReturn(): void
     {
         $hs = new Consistent();
-        static::assertEquals($hs, $hs->add('server1'));
+        static::assertSame($hs, $hs->add('server1'));
     }
 
     public function testRemoveReturn(): void
     {
         $hs = new Consistent();
-        static::assertEquals($hs, $hs->remove('server1'));
+        static::assertSame($hs, $hs->remove('server1'));
     }
 
     public function testGetReturn(): void
     {
         $hs = new Consistent();
-        static::assertEquals([], $hs->get('key1'));
+        static::assertSame([], $hs->get('key1'));
     }
 
     public function testGetWithData(): void
     {
         $hs = new Consistent();
         $hs->add('server1');
-        static::assertEquals(['server1'], $hs->get('key1'));
+        static::assertSame(['server1'], $hs->get('key1'));
     }
 
     public function testGetWithDataTwo(): void
@@ -36,18 +38,18 @@ class ConsistentTest extends TestCase
         $hs = new Consistent();
         $hs->add('server1');
         $hs->add('server2');
-        static::assertEquals(['server1'], $hs->get('key1'));
-        static::assertEquals(['server1', 'server2'], $hs->get('key1', 2));
-        static::assertEquals(['server2', 'server1'], $hs->get('key2abc', 2));
+        static::assertSame(['server1'], $hs->get('key1'));
+        static::assertSame(['server1', 'server2'], $hs->get('key1', 2));
+        static::assertSame(['server2', 'server1'], $hs->get('key2abc', 2));
     }
 
     public function testRemoveWithData(): void
     {
         $hs = new Consistent();
         $hs->add('server1');
-        static::assertEquals(['server1'], $hs->get('key1'));
+        static::assertSame(['server1'], $hs->get('key1'));
         $hs->remove('server1');
-        static::assertEquals([], $hs->get('key1'));
+        static::assertSame([], $hs->get('key1'));
     }
 
     public function testRemoveWithDataTwo(): void
@@ -55,9 +57,9 @@ class ConsistentTest extends TestCase
         $hs = new Consistent();
         $hs->add('server1');
         $hs->add('server2');
-        static::assertEquals(['server1', 'server2'], $hs->get('key1', 2));
+        static::assertSame(['server1', 'server2'], $hs->get('key1', 2));
         $hs->remove('server1');
-        static::assertEquals(['server2'], $hs->get('key1'));
+        static::assertSame(['server2'], $hs->get('key1'));
     }
 
     public function testGetWithDataMax(): void
@@ -67,7 +69,7 @@ class ConsistentTest extends TestCase
         $hs->add('server2');
         $hs->add('server3');
 
-        static::assertEquals(3, count($hs->get('key1', 10)));
+        static::assertSame(3, count($hs->get('key1', 10)));
     }
 
     public function testGetWithRandData(): void
@@ -79,7 +81,7 @@ class ConsistentTest extends TestCase
 
         $count = 200;
         while ($count--) {
-            static::assertEquals(2, count($hs->get(uniqid(), 2)));
+            static::assertSame(2, count($hs->get(uniqid(), 2)));
         }
     }
 
@@ -92,7 +94,7 @@ class ConsistentTest extends TestCase
 
         $count = 200;
         while ($count--) {
-            static::assertEquals(3, count($hs->get(uniqid(), 10)));
+            static::assertSame(3, count($hs->get(uniqid(), 10)));
         }
     }
 
@@ -103,7 +105,7 @@ class ConsistentTest extends TestCase
         $hs->add('server2', 10);
         $hs->add('server3', 1);
 
-        static::assertEquals(['server2'], $hs->get('key1'));
+        static::assertSame(['server2'], $hs->get('key1'));
     }
 
     public function testGetWeightChange(): void
@@ -113,10 +115,10 @@ class ConsistentTest extends TestCase
         $hs->add('server2', 10);
         $hs->add('server3', 1);
 
-        static::assertEquals(['server2'], $hs->get('key1'));
+        static::assertSame(['server2'], $hs->get('key1'));
 
         $hs->add('server4', 100);
-        static::assertEquals(['server4'], $hs->get('key1'));
+        static::assertSame(['server4'], $hs->get('key1'));
     }
 
     public function testInvalidHashType(): void
@@ -132,7 +134,7 @@ class ConsistentTest extends TestCase
         $hs->add('server2', 1);
         $hs->add('server3', 1);
 
-        static::assertEquals(['server1'], $hs->get('key1'));
+        static::assertSame(['server1'], $hs->get('key1'));
     }
 
     public function testHashTypeMd5(): void
@@ -142,6 +144,6 @@ class ConsistentTest extends TestCase
         $hs->add('server2', 1);
         $hs->add('server3', 1);
 
-        static::assertEquals(['server3'], $hs->get('key1'));
+        static::assertSame(['server3'], $hs->get('key1'));
     }
 }

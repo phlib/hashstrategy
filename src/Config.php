@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Phlib\HashStrategy;
 
 /**
@@ -55,7 +57,7 @@ class Config
         // loop the config adding the key as a node
         foreach ($this->configList as $key => $value) {
             $hashStrategy->add(
-                $key,
+                (string)$key,
                 $value['weight'] ?? 1
             );
         }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Phlib\HashStrategy;
 
 use PHPUnit\Framework\TestCase;
@@ -9,35 +11,35 @@ class RandTest extends TestCase
     public function testAddReturn(): void
     {
         $hs = new Rand();
-        static::assertEquals($hs, $hs->add('server1'));
+        static::assertSame($hs, $hs->add('server1'));
     }
 
     public function testRemoveReturn(): void
     {
         $hs = new Rand();
-        static::assertEquals($hs, $hs->remove('server1'));
+        static::assertSame($hs, $hs->remove('server1'));
     }
 
     public function testGetReturn(): void
     {
         $hs = new Rand();
-        static::assertEquals([], $hs->get('key1'));
+        static::assertSame([], $hs->get('key1'));
     }
 
     public function testGetWithData(): void
     {
         $hs = new Rand();
         $hs->add('server1');
-        static::assertEquals(['server1'], $hs->get('key1'));
+        static::assertSame(['server1'], $hs->get('key1'));
     }
 
     public function testRemoveWithData(): void
     {
         $hs = new Rand();
         $hs->add('server1');
-        static::assertEquals(['server1'], $hs->get('key1'));
+        static::assertSame(['server1'], $hs->get('key1'));
         $hs->remove('server1');
-        static::assertEquals([], $hs->get('key1'));
+        static::assertSame([], $hs->get('key1'));
     }
 
     public function testRemoveWithDataTwo(): void
@@ -48,7 +50,7 @@ class RandTest extends TestCase
 
         static::assertCount(2, $hs->get('key1', 2));
         $hs->remove('server1');
-        static::assertEquals(['server2'], $hs->get('key1'));
+        static::assertSame(['server2'], $hs->get('key1'));
     }
 
     public function testGetWithDataMax(): void
@@ -58,7 +60,7 @@ class RandTest extends TestCase
         $hs->add('server2');
         $hs->add('server3');
 
-        static::assertEquals(3, count($hs->get('key1', 10)));
+        static::assertSame(3, count($hs->get('key1', 10)));
     }
 
     public function testGetWithRandData(): void
@@ -72,7 +74,7 @@ class RandTest extends TestCase
         $tries = 0;
         do {
             $nodes = $hs->get(uniqid());
-            $idx = array_search($nodes[0], $nodeList);
+            $idx = array_search($nodes[0], $nodeList, true);
             if ($idx !== false) {
                 unset($nodeList[$idx]);
             }
@@ -113,10 +115,10 @@ class RandTest extends TestCase
         $hs->add('server2', 0);
         $hs->add('server3', 1);
 
-        static::assertEquals(['server3'], $hs->get('key1'));
+        static::assertSame(['server3'], $hs->get('key1'));
 
         $hs->remove('server3');
         $hs->add('server3a', 1);
-        static::assertEquals(['server3a'], $hs->get('key1'));
+        static::assertSame(['server3a'], $hs->get('key1'));
     }
 }

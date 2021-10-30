@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Phlib\HashStrategy;
 
 use PHPUnit\Framework\TestCase;
@@ -51,8 +53,8 @@ class ConfigTest extends TestCase
         $poolConfig = new Config($this->config, $hashStrategy);
 
         $configList = $poolConfig->getManyConfigs('key1');
-        static::assertEquals(1, count($configList));
-        static::assertEquals($this->config[0], $configList[0]);
+        static::assertSame(1, count($configList));
+        static::assertSame($this->config[0], $configList[0]);
     }
 
     public function testgetManyConfigsLevelTwo(): void
@@ -61,24 +63,24 @@ class ConfigTest extends TestCase
 
         $configList = $poolConfig->getManyConfigs('key1', 2);
 
-        static::assertEquals(2, count($configList));
-        static::assertEquals($this->config[2], $configList[0]);
-        static::assertEquals($this->config[0], $configList[1]);
+        static::assertSame(2, count($configList));
+        static::assertSame($this->config[2], $configList[0]);
+        static::assertSame($this->config[0], $configList[1]);
     }
 
     public function testGetConfigList(): void
     {
         $poolConfig = new Config($this->config);
         $originalConfig = $poolConfig->getConfigList();
-        static::assertEquals(count((array) $this->config), count($originalConfig));
-        static::assertEquals($this->config, $originalConfig);
+        static::assertSame(count((array) $this->config), count($originalConfig));
+        static::assertSame($this->config, $originalConfig);
     }
 
     public function testGetConfig(): void
     {
         $poolConfig = new Config($this->config);
-        static::assertEquals($this->config[2], $poolConfig->getConfig('key1'));
-        static::assertEquals($this->config[2], $poolConfig->getConfig('key2a'));
+        static::assertSame($this->config[2], $poolConfig->getConfig('key1'));
+        static::assertSame($this->config[2], $poolConfig->getConfig('key2a'));
     }
 
     public function testGetConfigWeighted(): void
@@ -87,7 +89,7 @@ class ConfigTest extends TestCase
         $this->config[1]['weight'] = 0;
         $this->config[2]['weight'] = 0;
         $poolConfig = new Config($this->config);
-        static::assertEquals($this->config[0], $poolConfig->getConfig('key1'));
+        static::assertSame($this->config[0], $poolConfig->getConfig('key1'));
     }
 
     public function testGetConfigMany(): void
@@ -96,7 +98,7 @@ class ConfigTest extends TestCase
 
         $counter = 200;
         while ($counter--) {
-            static::assertEquals(1, count($poolConfig->getManyConfigs(uniqid())));
+            static::assertSame(1, count($poolConfig->getManyConfigs(uniqid())));
         }
     }
 
@@ -106,7 +108,7 @@ class ConfigTest extends TestCase
 
         $counter = 200;
         while ($counter--) {
-            static::assertEquals(2, count($poolConfig->getManyConfigs(uniqid(), 2)));
+            static::assertSame(2, count($poolConfig->getManyConfigs(uniqid(), 2)));
         }
     }
 }
