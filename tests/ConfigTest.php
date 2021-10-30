@@ -18,22 +18,22 @@ class ConfigTest extends TestCase
         $this->config = [
             0 => [
                 'weight' => 2,
-                'host'   => 'local1',
-                'port'   => 123,
-                'key1'   => 'value1'
+                'host' => 'local1',
+                'port' => 123,
+                'key1' => 'value1',
             ],
             1 => [
                 'weight' => 1,
-                'host'   => 'local2',
-                'port'   => 456,
-                'key1'   => 'value2'
+                'host' => 'local2',
+                'port' => 456,
+                'key1' => 'value2',
             ],
             2 => [
                 'weight' => 3,
-                'host'   => 'local3',
-                'port'   => 789,
-                'key1'   => 'value3'
-            ]
+                'host' => 'local3',
+                'port' => 789,
+                'key1' => 'value3',
+            ],
         ];
     }
 
@@ -95,7 +95,7 @@ class ConfigTest extends TestCase
         $poolConfig = new Config($this->config);
 
         $counter = 200;
-        while($counter--) {
+        while ($counter--) {
             static::assertEquals(1, count($poolConfig->getManyConfigs(uniqid())));
         }
     }
@@ -105,7 +105,7 @@ class ConfigTest extends TestCase
         $poolConfig = new Config($this->config);
 
         $counter = 200;
-        while($counter--) {
+        while ($counter--) {
             static::assertEquals(2, count($poolConfig->getManyConfigs(uniqid(), 2)));
         }
     }

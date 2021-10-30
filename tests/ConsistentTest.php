@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class ConsistentTest extends TestCase
 {
-
     public function testAddReturn()
     {
         $hs = new Consistent();
@@ -79,7 +78,7 @@ class ConsistentTest extends TestCase
         $hs->add('server3');
 
         $count = 200;
-        while($count--) {
+        while ($count--) {
             static::assertEquals(2, count($hs->get(uniqid(), 2)));
         }
     }
@@ -92,7 +91,7 @@ class ConsistentTest extends TestCase
         $hs->add('server3');
 
         $count = 200;
-        while($count--) {
+        while ($count--) {
             static::assertEquals(3, count($hs->get(uniqid(), 10)));
         }
     }

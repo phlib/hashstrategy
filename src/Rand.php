@@ -8,7 +8,6 @@ namespace Phlib\HashStrategy;
  */
 class Rand implements HashStrategyInterface
 {
-
     /**
      * @var array
      */
@@ -28,7 +27,7 @@ class Rand implements HashStrategyInterface
      */
     public function add($node, $weight = 1)
     {
-        $node   = (string)$node;
+        $node = (string)$node;
         $weight = (int)$weight;
 
         if (!in_array($node, $this->nodes)) {
@@ -80,7 +79,7 @@ class Rand implements HashStrategyInterface
     public function get($key, $count = 1)
     {
         $count = (int)$count;
-        
+
         $weightedList = $this->weightedList;
 
         shuffle($weightedList);

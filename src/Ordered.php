@@ -9,7 +9,6 @@ namespace Phlib\HashStrategy;
  */
 class Ordered implements HashStrategyInterface
 {
-
     /**
      * @var array
      */
@@ -34,7 +33,7 @@ class Ordered implements HashStrategyInterface
      */
     public function add($node, $weight = 1)
     {
-        $node   = (string)$node;
+        $node = (string)$node;
         $weight = (int)$weight;
 
         if (!in_array($node, $this->nodes)) {

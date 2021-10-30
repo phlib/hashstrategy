@@ -21,7 +21,6 @@ namespace Phlib\HashStrategy;
  */
 class Config
 {
-
     /**
      * @var array
      */
@@ -88,7 +87,7 @@ class Config
     public function getManyConfigs($key, $count = 1)
     {
         // find a calculated config list
-        if (!array_key_exists("$key.$count", $this->calculatedConfig)) {
+        if (!array_key_exists("{$key}.{$count}", $this->calculatedConfig)) {
             // check we aren't storing too many calculated configs
             if (count($this->calculatedConfig) >= 100) {
                 // remove the fist in the list, should be the oldest
@@ -103,10 +102,10 @@ class Config
             }
 
             // store for later, a little config cache
-            $this->calculatedConfig["$key.$count"] = $configList;
+            $this->calculatedConfig["{$key}.{$count}"] = $configList;
         }
 
-        return $this->calculatedConfig["$key.$count"];
+        return $this->calculatedConfig["{$key}.{$count}"];
     }
 
     /**

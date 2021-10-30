@@ -76,7 +76,7 @@ class RandTest extends TestCase
             if ($idx !== false) {
                 unset($nodeList[$idx]);
             }
-        } while(count($nodeList) > 0 and $tries++ < 100);
+        } while (count($nodeList) > 0 and $tries++ < 100);
 
         static::assertLessThan(100, $tries);
     }
@@ -91,14 +91,14 @@ class RandTest extends TestCase
         $counts = [
             'server1' => 0,
             'server2' => 0,
-            'server3' => 0
+            'server3' => 0,
         ];
 
         $loops = 1000;
         do {
             $nodes = $hs->get(uniqid());
             $counts[$nodes[0]]++;
-        } while($loops--);
+        } while ($loops--);
 
         // assert they are within 10% tolerance
         static::assertEquals(500, $counts['server1'], '', 100);

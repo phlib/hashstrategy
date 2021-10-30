@@ -18,11 +18,10 @@ namespace Phlib\HashStrategy;
  */
 class Consistent implements HashStrategyInterface
 {
-
     /**
      * @var int
      */
-    protected $replicas  = 64;
+    protected $replicas = 64;
 
     /**
      * @var array
@@ -74,7 +73,7 @@ class Consistent implements HashStrategyInterface
      */
     public function add($node, $weight = 1)
     {
-        $node   = (string)$node;
+        $node = (string)$node;
         $weight = (int)$weight;
 
         // make sure we haven't already add this node
@@ -87,7 +86,7 @@ class Consistent implements HashStrategyInterface
             $replicas = round($this->replicas * $weight);
             for ($index = 0; $index < $replicas; $index++) {
                 // hashing the node with the index will give us the position in the circle
-                $this->circle[$this->hash("$node:$index")] = $node;
+                $this->circle[$this->hash("{$node}:{$index}")] = $node;
             }
         }
 
@@ -156,11 +155,11 @@ class Consistent implements HashStrategyInterface
      */
     public function get($key, $count = 1)
     {
-        $key   = (string)$key;
+        $key = (string)$key;
         $count = (int)$count;
 
         // this will be our lookup
-        $hash  = $this->hash($key);
+        $hash = $this->hash($key);
         // if the stored positions are empty then we need to calculate
         // the positions sorted ready for processing
         if (empty($this->positions)) {
