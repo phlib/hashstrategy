@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Constant `Consistent::HASH_AVAILABLE` to make it easier to extend the class to
   add alternate hash methods.
 ### Changed
+- **BC break**: Rename `Config` to `ConfigPool` for a more accurate description.
 - **BC break**: Reduce visibility of internal methods and properties. These
   members are not part of the public API. No impact to standard use of this
   package. If an implementation has a use case which needs to override these

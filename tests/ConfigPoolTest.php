@@ -6,7 +6,7 @@ namespace Phlib\HashStrategy;
 
 use PHPUnit\Framework\TestCase;
 
-class ConfigTest extends TestCase
+class ConfigPoolTest extends TestCase
 {
     private array $config;
 
@@ -47,7 +47,7 @@ class ConfigTest extends TestCase
             ->with('key1', 1)
             ->willReturn([0]);
 
-        $poolConfig = new Config($this->config, $hashStrategy);
+        $poolConfig = new ConfigPool($this->config, $hashStrategy);
 
         $configList = $poolConfig->getManyConfigs('key1');
         static::assertSame(1, count($configList));
@@ -56,7 +56,7 @@ class ConfigTest extends TestCase
 
     public function testgetManyConfigsLevelTwo(): void
     {
-        $poolConfig = new Config($this->config);
+        $poolConfig = new ConfigPool($this->config);
 
         $configList = $poolConfig->getManyConfigs('key1', 2);
 
@@ -67,7 +67,7 @@ class ConfigTest extends TestCase
 
     public function testGetConfigList(): void
     {
-        $poolConfig = new Config($this->config);
+        $poolConfig = new ConfigPool($this->config);
         $originalConfig = $poolConfig->getConfigList();
         static::assertSame(count((array) $this->config), count($originalConfig));
         static::assertSame($this->config, $originalConfig);
@@ -75,7 +75,7 @@ class ConfigTest extends TestCase
 
     public function testGetConfig(): void
     {
-        $poolConfig = new Config($this->config);
+        $poolConfig = new ConfigPool($this->config);
         static::assertSame($this->config[2], $poolConfig->getConfig('key1'));
         static::assertSame($this->config[2], $poolConfig->getConfig('key2a'));
     }
@@ -85,13 +85,13 @@ class ConfigTest extends TestCase
         $this->config[0]['weight'] = 1;
         $this->config[1]['weight'] = 0;
         $this->config[2]['weight'] = 0;
-        $poolConfig = new Config($this->config);
+        $poolConfig = new ConfigPool($this->config);
         static::assertSame($this->config[0], $poolConfig->getConfig('key1'));
     }
 
     public function testGetConfigMany(): void
     {
-        $poolConfig = new Config($this->config);
+        $poolConfig = new ConfigPool($this->config);
 
         $counter = 200;
         while ($counter--) {
@@ -101,7 +101,7 @@ class ConfigTest extends TestCase
 
     public function testGetConfigMany2(): void
     {
-        $poolConfig = new Config($this->config);
+        $poolConfig = new ConfigPool($this->config);
 
         $counter = 200;
         while ($counter--) {

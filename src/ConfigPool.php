@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Phlib\HashStrategy;
 
 /**
- * Pool Config
+ * ConfigPool
  *
  * Used for hashing a pool of configs
  *
@@ -15,13 +15,12 @@ namespace Phlib\HashStrategy;
  *      'server2' => array('hostname' => 'localhost', 'port' => 11212),
  *      'server3' => array('hostname' => 'localhost', 'port' => 11213),
  * );
- * $pool = new Phlib\HashStrategy\Config($config);
+ * $pool = new Phlib\HashStrategy\ConfigPool($config);
  * var_dump($pool->getConfigList('some key', 2));
  *
- * Class Config
  * @package Phlib\HashStrategy
  */
-class Config
+class ConfigPool
 {
     private array $configList;
 
