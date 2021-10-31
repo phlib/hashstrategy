@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Phlib\HashStrategy;
 
 /**
- * Class Ordered
- *
  * @package Phlib\HashStrategy
  */
 class Ordered implements HashStrategyInterface

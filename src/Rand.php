@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Phlib\HashStrategy;
 
 /**
- * Class Rand
  * @package Phlib\HashStrategy
  */
 class Rand implements HashStrategyInterface

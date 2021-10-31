@@ -7,6 +7,47 @@ PHP hash strategy library including random, sorted, consistent
 [![Total Downloads](https://img.shields.io/packagist/dt/phlib/hashstrategy.svg?logo=packagist)](https://packagist.org/packages/phlib/hashstrategy)
 ![Licence](https://img.shields.io/github/license/phlib/hashstrategy.svg)
 
+## Usage
+
+### Strategies
+
+Values are added to an index with a specific weighting.
+They are fetched according to the strategy and the hashing `$key` passed to `get()`.
+
+- Consistent
+  - The same value(s) will always be returned for the given `$key`.
+  - Weighting is used to increase the likelihood of a value being returned.
+- Ordered
+  - Values are returned in order of decreasing weight.
+  - Values with the same weight are returned in the order added.
+- Rand
+  - Values are picked randomly.
+  - Weighting is used to increase the likelihood of a value being returned.
+
+```php
+$pool = new \Phlib\HashStrategy\Consistent();
+$pool->add('one');
+$pool->add('two');
+$pool->add('three');
+var_dump($pool->get('hello', 2));
+```
+
+### ConfigPool
+
+Combines available hash strategies with a set of configs to provide a direct way
+to choose a config to use, for example choosing between a set of replicas.
+
+```php
+$config = [
+     'server1' => ['hostname' => 'localhost', 'port' => 11211],
+     'server2' => ['hostname' => 'localhost', 'port' => 11212],
+     'server3' => ['hostname' => 'localhost', 'port' => 11213],
+];
+$hashStrategy = new \Phlib\HashStrategy\Consistent();
+$pool = new \Phlib\HashStrategy\ConfigPool($config, $hashStrategy);
+var_dump($pool->getManyConfigs('some key', 2));
+```
+
 ## License
 
 This package is free software: you can redistribute it and/or modify

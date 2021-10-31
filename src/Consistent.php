@@ -5,17 +5,6 @@ declare(strict_types=1);
 namespace Phlib\HashStrategy;
 
 /**
- * Class Consistent
- *
- * Used for consistent hashing a number of nodes
- *
- * === Example ===
- * $pool = new Phlib\HashStrategy\Consistent();
- * $pool->add(0);
- * $pool->add(1);
- * $pool->add(2);
- * var_dump($pool->get('hello', 2));
- *
  * @package Phlib\HashStrategy
  */
 class Consistent implements HashStrategyInterface

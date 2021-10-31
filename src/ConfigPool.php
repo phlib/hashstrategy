@@ -5,19 +5,6 @@ declare(strict_types=1);
 namespace Phlib\HashStrategy;
 
 /**
- * ConfigPool
- *
- * Used for hashing a pool of configs
- *
- * === Example ===
- * $config = array(
- *      'server1' => array('hostname' => 'localhost', 'port' => 11211),
- *      'server2' => array('hostname' => 'localhost', 'port' => 11212),
- *      'server3' => array('hostname' => 'localhost', 'port' => 11213),
- * );
- * $pool = new Phlib\HashStrategy\ConfigPool($config);
- * var_dump($pool->getConfigList('some key', 2));
- *
  * @package Phlib\HashStrategy
  */
 class ConfigPool
