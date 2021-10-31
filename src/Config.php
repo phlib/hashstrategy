@@ -26,17 +26,17 @@ class Config
     /**
      * @var array
      */
-    protected $configList;
+    private $configList;
 
     /**
      * @var array
      */
-    protected $calculatedConfig = [];
+    private $calculatedConfig = [];
 
     /**
      * @var HashStrategyInterface
      */
-    protected $hashStrategy;
+    private $hashStrategy;
 
     public function __construct(array $configList, HashStrategyInterface $hashStrategy = null)
     {
