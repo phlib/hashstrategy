@@ -21,6 +21,12 @@ namespace Phlib\HashStrategy;
 class Consistent implements HashStrategyInterface
 {
     /**
+     * Allow override so extra hash methods can be added
+     * @see Consistent::hash()
+     */
+    protected const HASH_AVAILABLE = ['crc32', 'md5'];
+
+    /**
      * @var int
      */
     protected $replicas = 64;
@@ -47,11 +53,11 @@ class Consistent implements HashStrategyInterface
 
     public function __construct(string $hashType = 'crc32')
     {
-        $availableTypes = ['crc32', 'md5'];
+        $availableTypes = static::HASH_AVAILABLE;
         if (!in_array($hashType, $availableTypes, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid hash hashType provided '%s'",
+                    "Invalid hash type provided '%s'",
                     $hashType
                 )
             );
@@ -109,9 +115,15 @@ class Consistent implements HashStrategyInterface
                 return substr(md5($value), 0, 8);
 
             case 'crc32':
-            default:
                 return (string)crc32($value);
         }
+
+        throw new \DomainException(
+            sprintf(
+                "No hash method configured for '%s'",
+                $this->hashType
+            )
+        );
     }
 
     public function get(string $key, int $count = 1): array

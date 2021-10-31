@@ -124,6 +124,8 @@ class ConsistentTest extends TestCase
     public function testInvalidHashType(): void
     {
         $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid hash type provided');
+
         new Consistent('none');
     }
 
@@ -145,5 +147,20 @@ class ConsistentTest extends TestCase
         $hs->add('server3', 1);
 
         static::assertSame(['server3'], $hs->get('key1'));
+    }
+
+    public function testMissingHashMethod(): void
+    {
+        $hashType = 'testHash';
+
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage("No hash method configured for '{$hashType}'");
+
+        // Extend the class to add a new hash method without implementation
+        $hs = new class($hashType) extends Consistent {
+            protected const HASH_AVAILABLE = ['testHash'];
+        };
+
+        $hs->add('server1');
     }
 }
