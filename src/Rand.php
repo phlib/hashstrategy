@@ -10,15 +10,9 @@ namespace Phlib\HashStrategy;
  */
 class Rand implements HashStrategyInterface
 {
-    /**
-     * @var array
-     */
-    private $nodes = [];
+    private array $nodes = [];
 
-    /**
-     * @var array
-     */
-    private $weightedList = [];
+    private array $weightedList = [];
 
     public function add(string $node, int $weight = 1): self
     {

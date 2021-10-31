@@ -26,30 +26,15 @@ class Consistent implements HashStrategyInterface
      */
     protected const HASH_AVAILABLE = ['crc32', 'md5'];
 
-    /**
-     * @var int
-     */
-    private $replicas = 64;
+    private int $replicas = 64;
 
-    /**
-     * @var array
-     */
-    private $nodes = [];
+    private array $nodes = [];
 
-    /**
-     * @var array
-     */
-    private $circle = [];
+    private array $circle = [];
 
-    /**
-     * @var array
-     */
-    private $positions = [];
+    private array $positions = [];
 
-    /**
-     * @var string
-     */
-    private $hashType = 'crc32';
+    private string $hashType = 'crc32';
 
     public function __construct(string $hashType = 'crc32')
     {

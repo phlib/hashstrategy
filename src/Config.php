@@ -23,20 +23,11 @@ namespace Phlib\HashStrategy;
  */
 class Config
 {
-    /**
-     * @var array
-     */
-    private $configList;
+    private array $configList;
 
-    /**
-     * @var array
-     */
-    private $calculatedConfig = [];
+    private array $calculatedConfig = [];
 
-    /**
-     * @var HashStrategyInterface
-     */
-    private $hashStrategy;
+    private HashStrategyInterface $hashStrategy;
 
     public function __construct(array $configList, HashStrategyInterface $hashStrategy = null)
     {

@@ -11,20 +11,11 @@ namespace Phlib\HashStrategy;
  */
 class Ordered implements HashStrategyInterface
 {
-    /**
-     * @var array
-     */
-    private $nodes = [];
+    private array $nodes = [];
 
-    /**
-     * @var int
-     */
-    private $counter = 1000;
+    private int $counter = 1000;
 
-    /**
-     * @var bool
-     */
-    private $sorted = false;
+    private bool $sorted = false;
 
     public function add(string $node, int $weight = 1): self
     {
