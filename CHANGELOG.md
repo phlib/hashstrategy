@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
-- Add support for PHP v7.1 (temporary measure to move away from PHP v5).
+- Add support for PHP v7.4 .
 - Type declarations have been added to all method parameters and return types
   where possible.
 - Constant `Consistent::HASH_AVAILABLE` to make it easier to extend the class to
@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   package. If an implementation has a use case which needs to override these
   members, please submit a pull request explaining the change.
 ### Removed
-- **BC break**: Removed support for PHP versions < v7.1 as they are no longer
+- **BC break**: Removed support for PHP versions <= v7.3 as they are no longer
   [actively supported](https://php.net/supported-versions.php) by the PHP project.
 
 ## [1.0.0] - 2015-02-22
