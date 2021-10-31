@@ -103,9 +103,9 @@ class RandTest extends TestCase
         } while ($loops--);
 
         // assert they are within 10% tolerance
-        static::assertEquals(500, $counts['server1'], '', 100);
-        static::assertEquals(200, $counts['server2'], '', 100);
-        static::assertEquals(300, $counts['server3'], '', 100);
+        static::assertEqualsWithDelta(500, $counts['server1'], 100);
+        static::assertEqualsWithDelta(200, $counts['server2'], 100);
+        static::assertEqualsWithDelta(300, $counts['server3'], 100);
     }
 
     public function testGetWeightChange(): void
