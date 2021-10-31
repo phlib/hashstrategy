@@ -1,75 +1,78 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Phlib\HashStrategy;
 
-class ConsistentTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ConsistentTest extends TestCase
 {
-
-    public function testAddReturn()
+    public function testAddReturn(): void
     {
         $hs = new Consistent();
-        $this->assertEquals($hs, $hs->add('server1'));
+        static::assertSame($hs, $hs->add('server1'));
     }
 
-    public function testRemoveReturn()
+    public function testRemoveReturn(): void
     {
         $hs = new Consistent();
-        $this->assertEquals($hs, $hs->remove('server1'));
+        static::assertSame($hs, $hs->remove('server1'));
     }
 
-    public function testGetReturn()
+    public function testGetReturn(): void
     {
         $hs = new Consistent();
-        $this->assertEquals(array(), $hs->get('key1'));
+        static::assertSame([], $hs->get('key1'));
     }
 
-    public function testGetWithData()
-    {
-        $hs = new Consistent();
-        $hs->add('server1');
-        $this->assertEquals(array('server1'), $hs->get('key1'));
-    }
-
-    public function testGetWithDataTwo()
+    public function testGetWithData(): void
     {
         $hs = new Consistent();
         $hs->add('server1');
-        $hs->add('server2');
-        $this->assertEquals(array('server1'), $hs->get('key1'));
-        $this->assertEquals(array('server1', 'server2'), $hs->get('key1', 2));
-        $this->assertEquals(array('server2', 'server1'), $hs->get('key2abc', 2));
+        static::assertSame(['server1'], $hs->get('key1'));
     }
 
-    public function testRemoveWithData()
-    {
-        $hs = new Consistent();
-        $hs->add('server1');
-        $this->assertEquals(array('server1'), $hs->get('key1'));
-        $hs->remove('server1');
-        $this->assertEquals(array(), $hs->get('key1'));
-    }
-
-    public function testRemoveWithDataTwo()
+    public function testGetWithDataTwo(): void
     {
         $hs = new Consistent();
         $hs->add('server1');
         $hs->add('server2');
-        $this->assertEquals(array('server1', 'server2'), $hs->get('key1', 2));
-        $hs->remove('server1');
-        $this->assertEquals(array('server2'), $hs->get('key1'));
+        static::assertSame(['server1'], $hs->get('key1'));
+        static::assertSame(['server1', 'server2'], $hs->get('key1', 2));
+        static::assertSame(['server2', 'server1'], $hs->get('key2abc', 2));
     }
 
-    public function testGetWithDataMax()
+    public function testRemoveWithData(): void
+    {
+        $hs = new Consistent();
+        $hs->add('server1');
+        static::assertSame(['server1'], $hs->get('key1'));
+        $hs->remove('server1');
+        static::assertSame([], $hs->get('key1'));
+    }
+
+    public function testRemoveWithDataTwo(): void
+    {
+        $hs = new Consistent();
+        $hs->add('server1');
+        $hs->add('server2');
+        static::assertSame(['server1', 'server2'], $hs->get('key1', 2));
+        $hs->remove('server1');
+        static::assertSame(['server2'], $hs->get('key1'));
+    }
+
+    public function testGetWithDataMax(): void
     {
         $hs = new Consistent();
         $hs->add('server1');
         $hs->add('server2');
         $hs->add('server3');
 
-        $this->assertEquals(3, count($hs->get('key1', 10)));
+        static::assertSame(3, count($hs->get('key1', 10)));
     }
 
-    public function testGetWithRandData()
+    public function testGetWithRandData(): void
     {
         $hs = new Consistent();
         $hs->add('server1');
@@ -77,12 +80,12 @@ class ConsistentTest extends \PHPUnit_Framework_TestCase
         $hs->add('server3');
 
         $count = 200;
-        while($count--) {
-            $this->assertEquals(2, count($hs->get(uniqid(), 2)));
+        while ($count--) {
+            static::assertSame(2, count($hs->get(uniqid(), 2)));
         }
     }
 
-    public function testGetWithRandDataOther()
+    public function testGetWithRandDataOther(): void
     {
         $hs = new Consistent();
         $hs->add('server1');
@@ -90,59 +93,74 @@ class ConsistentTest extends \PHPUnit_Framework_TestCase
         $hs->add('server3');
 
         $count = 200;
-        while($count--) {
-            $this->assertEquals(3, count($hs->get(uniqid(), 10)));
+        while ($count--) {
+            static::assertSame(3, count($hs->get(uniqid(), 10)));
         }
     }
 
-    public function testGetWeight()
+    public function testGetWeight(): void
     {
         $hs = new Consistent();
         $hs->add('server1', 1);
         $hs->add('server2', 10);
         $hs->add('server3', 1);
 
-        $this->assertEquals(array('server2'), $hs->get('key1'));
+        static::assertSame(['server2'], $hs->get('key1'));
     }
 
-    public function testGetWeightChange()
+    public function testGetWeightChange(): void
     {
         $hs = new Consistent();
         $hs->add('server1', 1);
         $hs->add('server2', 10);
         $hs->add('server3', 1);
 
-        $this->assertEquals(array('server2'), $hs->get('key1'));
+        static::assertSame(['server2'], $hs->get('key1'));
 
         $hs->add('server4', 100);
-        $this->assertEquals(array('server4'), $hs->get('key1'));
+        static::assertSame(['server4'], $hs->get('key1'));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testInvalidHashType()
+    public function testInvalidHashType(): void
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid hash type provided');
+
         new Consistent('none');
     }
 
-    public function testHashTypeCrc32()
+    public function testHashTypeCrc32(): void
     {
         $hs = new Consistent('crc32');
         $hs->add('server1', 1);
         $hs->add('server2', 1);
         $hs->add('server3', 1);
 
-        $this->assertEquals(array('server1'), $hs->get('key1'));
+        static::assertSame(['server1'], $hs->get('key1'));
     }
 
-    public function testHashTypeMd5()
+    public function testHashTypeMd5(): void
     {
         $hs = new Consistent('md5');
         $hs->add('server1', 1);
         $hs->add('server2', 1);
         $hs->add('server3', 1);
 
-        $this->assertEquals(array('server3'), $hs->get('key1'));
+        static::assertSame(['server3'], $hs->get('key1'));
+    }
+
+    public function testMissingHashMethod(): void
+    {
+        $hashType = 'testHash';
+
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage("No hash method configured for '{$hashType}'");
+
+        // Extend the class to add a new hash method without implementation
+        $hs = new class($hashType) extends Consistent {
+            protected const HASH_AVAILABLE = ['testHash'];
+        };
+
+        $hs->add('server1');
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Phlib\HashStrategy;
 
 /**
@@ -18,45 +20,29 @@ namespace Phlib\HashStrategy;
  */
 class Consistent implements HashStrategyInterface
 {
-
     /**
-     * @var int
+     * Allow override so extra hash methods can be added
+     * @see Consistent::hash()
      */
-    protected $replicas  = 64;
+    protected const HASH_AVAILABLE = ['crc32', 'md5'];
 
-    /**
-     * @var array
-     */
-    protected $nodes = array();
+    private int $replicas = 64;
 
-    /**
-     * @var array
-     */
-    protected $circle = array();
+    private array $nodes = [];
 
-    /**
-     * @var array
-     */
-    protected $positions = array();
+    private array $circle = [];
 
-    /**
-     * @var string
-     */
-    protected $hashType = 'crc32';
+    private array $positions = [];
 
-    /**
-     * Constructor
-     *
-     * @param string $hashType
-     * @throws \InvalidArgumentException
-     */
-    public function __construct($hashType = 'crc32')
+    private string $hashType = 'crc32';
+
+    public function __construct(string $hashType = 'crc32')
     {
-        $availableTypes = array('crc32', 'md5');
-        if (!in_array($hashType, $availableTypes)) {
+        $availableTypes = static::HASH_AVAILABLE;
+        if (!in_array($hashType, $availableTypes, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid hash hashType provided '%s'",
+                    "Invalid hash type provided '%s'",
                     $hashType
                 )
             );
@@ -65,50 +51,32 @@ class Consistent implements HashStrategyInterface
         $this->hashType = $hashType;
     }
 
-    /**
-     * Add
-     *
-     * @param string $node
-     * @param int $weight
-     * @return $this
-     */
-    public function add($node, $weight = 1)
+    public function add(string $node, int $weight = 1): self
     {
-        $node   = (string)$node;
-        $weight = (int)$weight;
-
         // make sure we haven't already add this node
-        if (!in_array($node, $this->nodes)) {
+        if (!in_array($node, $this->nodes, true)) {
             // reset sorted positions, adding a node invalidates
-            $this->positions = array();
+            $this->positions = [];
             // add the node to the nodes array
             $this->nodes[] = $node;
             // calculate how many replicas to use in the circle
             $replicas = round($this->replicas * $weight);
             for ($index = 0; $index < $replicas; $index++) {
                 // hashing the node with the index will give us the position in the circle
-                $this->circle[$this->hash("$node:$index")] = $node;
+                $this->circle[$this->hash("{$node}:{$index}")] = $node;
             }
         }
 
         return $this;
     }
 
-    /**
-     * Remove
-     *
-     * @param string $node
-     * @return $this
-     */
-    public function remove($node)
+    public function remove(string $node): self
     {
-        $node = (string)$node;
-
         // find the node index for removal
-        $nodeIndex = array_search($node, $this->nodes);
+        $nodeIndex = array_search($node, $this->nodes, true);
         if ($nodeIndex !== false) {
             // reset sorted positions, removing a node invalidates
-            $this->positions = array();
+            $this->positions = [];
             // remove the found node
             unset($this->nodes[$nodeIndex]);
             // loop the positions in the circle
@@ -116,7 +84,7 @@ class Consistent implements HashStrategyInterface
             foreach ($positions as $position) {
                 // if the position on the circle contains the node we're removing
                 // then remove it
-                if ($this->circle[$position] == $node) {
+                if ($this->circle[$position] === $node) {
                     unset($this->circle[$position]);
                 }
             }
@@ -125,42 +93,28 @@ class Consistent implements HashStrategyInterface
         return $this;
     }
 
-    /**
-     * Hash
-     *
-     * @param string $value
-     * @return string
-     */
-    protected function hash($value)
+    protected function hash(string $value): string
     {
         switch ($this->hashType) {
             case 'md5':
-                $hashValue = substr(md5($value), 0, 8);
-                break;
+                return substr(md5($value), 0, 8);
 
             case 'crc32':
-            default:
-                $hashValue = crc32($value);
-                break;
+                return (string)crc32($value);
         }
 
-        return $hashValue;
+        throw new \DomainException(
+            sprintf(
+                "No hash method configured for '%s'",
+                $this->hashType
+            )
+        );
     }
 
-    /**
-     * Get
-     *
-     * @param string $key
-     * @param int $count
-     * @return array
-     */
-    public function get($key, $count = 1)
+    public function get(string $key, int $count = 1): array
     {
-        $key   = (string)$key;
-        $count = (int)$count;
-
         // this will be our lookup
-        $hash  = $this->hash($key);
+        $hash = $this->hash($key);
         // if the stored positions are empty then we need to calculate
         // the positions sorted ready for processing
         if (empty($this->positions)) {
@@ -168,7 +122,7 @@ class Consistent implements HashStrategyInterface
             sort($this->positions);
         }
 
-        $collected = array();
+        $collected = [];
         $found = 0;
 
         // loop though every position
@@ -178,13 +132,13 @@ class Consistent implements HashStrategyInterface
                 // fetch the node value
                 $node = $this->circle[$position];
                 // make sure we haven't collected this node already
-                if (!in_array($node, $collected)) {
+                if (!in_array($node, $collected, true)) {
                     // collect the node
                     $collected[] = $node;
                     // increment the found count
                     $found++;
                     // if we've found the amount we need break the loop
-                    if ($found == $count) {
+                    if ($found === $count) {
                         break;
                     }
                 }
@@ -199,13 +153,13 @@ class Consistent implements HashStrategyInterface
                 // this time we start collecting stright away
                 $node = $this->circle[$position];
                 // make sure we haven't collected this node already
-                if (!in_array($node, $collected)) {
+                if (!in_array($node, $collected, true)) {
                     // collect the node to return
                     $collected[] = $node;
                     // increment the found count
                     $found++;
                     // if we've found the amount we need break the loop
-                    if ($found == $count) {
+                    if ($found === $count) {
                         break;
                     }
                 }

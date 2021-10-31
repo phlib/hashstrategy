@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Phlib\HashStrategy;
 
 /**
@@ -21,28 +23,12 @@ namespace Phlib\HashStrategy;
  */
 class Config
 {
+    private array $configList;
 
-    /**
-     * @var array
-     */
-    protected $configList;
+    private array $calculatedConfig = [];
 
-    /**
-     * @var array
-     */
-    protected $calculatedConfig = array();
+    private HashStrategyInterface $hashStrategy;
 
-    /**
-     * @var HashStrategyInterface
-     */
-    protected $hashStrategy;
-
-    /**
-     * Constructor
-     *
-     * @param array $configList
-     * @param HashStrategyInterface $hashStrategy
-     */
     public function __construct(array $configList, HashStrategyInterface $hashStrategy = null)
     {
         // store the config array for later retrieval
@@ -57,18 +43,14 @@ class Config
         $this->setHashStrategy($hashStrategy);
     }
 
-    /**
-     * Set hash strategy
-     *
-     * @param HashStrategyInterface $hashStrategy
-     * @return $this
-     */
-    public function setHashStrategy(HashStrategyInterface $hashStrategy)
+    public function setHashStrategy(HashStrategyInterface $hashStrategy): self
     {
         // loop the config adding the key as a node
         foreach ($this->configList as $key => $value) {
-            $weight = isset($value['weight']) ? $value['weight'] : 1;
-            $hashStrategy->add($key, $weight);
+            $hashStrategy->add(
+                (string)$key,
+                $value['weight'] ?? 1
+            );
         }
 
         $this->hashStrategy = $hashStrategy;
@@ -76,17 +58,10 @@ class Config
         return $this;
     }
 
-    /**
-     * Get many configs
-     *
-     * @param string $key
-     * @param int $count
-     * @return array
-     */
-    public function getManyConfigs($key, $count = 1)
+    public function getManyConfigs(string $key, int $count = 1): array
     {
         // find a calculated config list
-        if (!array_key_exists("$key.$count", $this->calculatedConfig)) {
+        if (!array_key_exists("{$key}.{$count}", $this->calculatedConfig)) {
             // check we aren't storing too many calculated configs
             if (count($this->calculatedConfig) >= 100) {
                 // remove the fist in the list, should be the oldest
@@ -94,26 +69,20 @@ class Config
             }
 
             // get a list of config keys using the count and key provided
-            $configList = array();
+            $configList = [];
             foreach ($this->hashStrategy->get($key, $count) as $index) {
                 // append the config values to the config list
                 $configList[] = $this->configList[$index];
             }
 
             // store for later, a little config cache
-            $this->calculatedConfig["$key.$count"] = $configList;
+            $this->calculatedConfig["{$key}.{$count}"] = $configList;
         }
 
-        return $this->calculatedConfig["$key.$count"];
+        return $this->calculatedConfig["{$key}.{$count}"];
     }
 
-    /**
-     * Get config
-     *
-     * @param string $key
-     * @return array
-     */
-    public function getConfig($key)
+    public function getConfig(string $key): array
     {
         // return the first matching config key
         $index = $this->hashStrategy->get($key, 1);
@@ -121,12 +90,7 @@ class Config
         return $this->configList[$index[0]];
     }
 
-    /**
-     * Get config list
-     *
-     * @return array
-     */
-    public function getConfigList()
+    public function getConfigList(): array
     {
         return $this->configList;
     }

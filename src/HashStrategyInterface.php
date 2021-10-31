@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Phlib\HashStrategy;
 
 /**
@@ -8,29 +10,9 @@ namespace Phlib\HashStrategy;
  */
 interface HashStrategyInterface
 {
-    /**
-     * Add
-     *
-     * @param string $node
-     * @param int $weight
-     * @return HashStrategy
-     */
-    public function add($node, $weight = 1);
+    public function add(string $node, int $weight = 1): self;
 
-    /**
-     * Remove
-     *
-     * @param string $node
-     * @return HashStrategy
-     */
-    public function remove($node);
+    public function remove(string $node): self;
 
-    /**
-     * Get
-     *
-     * @param string $key
-     * @param int $count
-     * @return array
-     */
-    public function get($key, $count = 1);
+    public function get(string $key, int $count = 1): array;
 }
