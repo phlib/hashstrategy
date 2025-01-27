@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Phlib\HashStrategy;
 
 /**
- * Interface HashStrategy
  * @package Phlib\HashStrategy
  */
 interface HashStrategyInterface

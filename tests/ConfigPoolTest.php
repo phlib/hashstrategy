@@ -6,6 +6,9 @@ namespace Phlib\HashStrategy;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @package Phlib\HashStrategy
+ */
 class ConfigPoolTest extends TestCase
 {
     private array $config;
@@ -69,7 +72,7 @@ class ConfigPoolTest extends TestCase
     {
         $poolConfig = new ConfigPool($this->config);
         $originalConfig = $poolConfig->getConfigList();
-        static::assertSame(count((array) $this->config), count($originalConfig));
+        static::assertSame(count((array)$this->config), count($originalConfig));
         static::assertSame($this->config, $originalConfig);
     }
 

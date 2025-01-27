@@ -6,6 +6,9 @@ namespace Phlib\HashStrategy;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @package Phlib\HashStrategy
+ */
 class RandTest extends TestCase
 {
     public function testAddReturn(): void
